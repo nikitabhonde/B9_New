@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block content %} 
+
+      <h2>In Active Books</h2>
+      Time :- {{today}} 
+      <a href="{% url 'create_inactivebook_csv' %}" class="btn btn-info btn-sm ">Download CSV</a> &nbsp;
+      <a href="{% url 'create_inactivebook_excel' %}" class="btn btn-info btn-sm">Download Excel</a> &nbsp;
+      
+      <br><hr>
+
+<table class="table table-bordered table-danger">
+            <thead>   <!-- esse table-Headings add hogi -->
+              <tr>   
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>   
+                <th scope="col">Price</th>
+                <th scope="col">Qty</th>
+                <th scope="col">Is Published</th>
+                <th scope="col">Is Active</th>
+                <th scope="col">Actions</th>
+
+              </tr>
+            </thead>
+            <tbody>
+               {% for book in allbooks %}     <!-- all books aalya pahije mnun for loop cha use kela <tbody> mdhe <tr> vr-->
+              <tr>
+                <th scope="row">{{book.id}}</th>    
+                <td>{{book.name}}</td>
+                <td>{{book.price}}</td>
+                <td>{{book.qty}}</td>
+                <td>{{book.is_published}}</td>
+                <td>{{book.is_active}}</td>
+                <td>
+<!-- nicche kai code se humne button add kiya -->
+            <div class="btn-group" role="group" >
+                    <a href="{% url 'show_single_book' book.id %}" class="btn btn-outline-info btn-sm">View</a> &nbsp;&nbsp;&nbsp;
+
+                    <a href="{% url 'edit_single_book' book.id %}" class="btn btn-outline-success btn-sm">Edit</a> &nbsp;&nbsp;&nbsp;
+
+                                     
+                    <form action="{% url 'restore_single_book' book.id %}" method="post">
+                      {% csrf_token %}
+                      <input type="submit" value="Restore" class="btn btn-outline-warning btn-sm">&nbsp;&nbsp;&nbsp;
+                    </form> 
+
+                    <form action="{% url 'delete_single_book' book.id %}" method="post">
+                      {% csrf_token %}
+                      <input type="submit" value="Delete" class="btn btn-outline-danger btn-sm">
+                    </form> 
+            </div> 
+                  
+                </td>
+                
+              </tr>
+            </tbody>
+             {% endfor %}
+          </table>
+
+          
+{% endblock %}     

@@ -1,0 +1,20 @@
+<html>
+    <body>
+        <ul>
+            <!-- Iterate over object_list -->
+            <!--we can use this also [for object in object_list] if context_object_name nsel pass kel view mdhe-->
+            {% for object in all_employees %}
+            <!-- Display Objects -->
+            <li>{{ object.first_name }}</li>
+            <li>{{ object.last_name }}</li>
+            <li>{{ object.mobile }}</li>
+            <li>{{ object.email }}</li>
+
+            <hr/>
+            <!-- If object_list is empty -->
+            {% empty %}
+            <li>No objects yet.</li>
+            {% endfor %}
+        </ul>
+    </body>
+</html>

@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block content %} 
+
+<!-- Eske upr tk code same hai jaise welcome.html mai tha -->
+      <h2>All Active Books</h2>
+      Time :- {{today}} 
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+      <a href="{% url 'create_activebook_csv' %}" class="btn btn-primary btn-sm">Download CSV</a> &nbsp;&nbsp;
+      <a href="{% url 'create_activebook_excel' %}"  class="btn btn-primary btn-sm">Download Excel</a> &nbsp;&nbsp;&nbsp;
+    </div>
+
+      <form action="{% url 'upload_csv' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="csv_file">
+        <input type="submit" class="btn btn-info btn-sm me-md-2" value="Upload CSV">
+      </form>
+
+      <form action="{% url 'upload_sample_csv' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="csv_file">
+        <input type="submit" class="btn btn-info btn-sm" value="Sample CSV"><br>
+      </form>
+   
+      <hr>
+      <!-- {{allbooks}} -->   <!-- views.py mdhe he {"allbooks": books} lihilya nantr ethe he {{allbooks}} lihil esse vo all books 'showbooks.html' mai print ho jayegi  -->
+<!-- table create krna hai es liye niche code kiya hai & Table cha code bootstrap 5 mdhun copy kela aahe -->
+
+ 
+
+<table class="table table-bordered table-info">
+            <thead>   <!-- esse table-Headings add hogi -->
+              <tr>   
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>   
+                <th scope="col">Price</th>
+                <th scope="col">Qty</th>
+                <th scope="col">Is Published</th>
+                <th scope="col">Is Active</th>
+                <th scope="col">Actions</th>
+
+              </tr>
+            </thead>
+            <tbody>
+               {% for book in allbooks %}     <!-- all books aalya pahije mnun for loop cha use kela <tbody> mdhe <tr> vr-->
+              <tr>
+                <th scope="row">{{book.id}}</th>    
+                <td>{{book.name}}</td>
+                <td>{{book.price}}</td>
+                <td>{{book.qty}}</td>
+                <td>{{book.is_published}}</td>
+                <td>{{book.is_active}}</td>
+                <td>
+<!-- nicche kai code se humne button add kiya -->
+            <div class="btn-group" role="group" >
+                    <a href="{% url 'show_single_book' book.id %}" class="btn btn-outline-primary btn-sm">View</a> &nbsp;&nbsp;&nbsp;
+
+                    <a href="{% url 'edit_single_book' book.id %}" class="btn btn-outline-success btn-sm">Edit</a> &nbsp;&nbsp;&nbsp;
+                                        
+                    <form action="{% url 'soft_delete_single_book' book.id %}" method="post">
+                      {% csrf_token %}
+                      <input type="submit" value="Soft Delete" class="btn btn-outline-warning btn-sm">&nbsp;&nbsp;&nbsp;
+                    </form> 
+
+                    <form action="{% url 'delete_single_book' book.id %}" method="post">
+                      {% csrf_token %}
+                      <input type="submit" value="Hard Delete" class="btn btn-outline-danger btn-sm">
+                    </form> 
+                  </div> 
+                  
+                </td>
+                
+              </tr>
+            </tbody>
+             {% endfor %}
+          </table>
+
+          
+{% endblock %}     

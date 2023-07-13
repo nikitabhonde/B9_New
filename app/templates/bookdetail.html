@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+<!-- Eske upr tk code same hai jaise welcome.html mai tha -->
+
+{% block content %}  
+
+      <h2>Single Book Information</h2>
+<!-- js name models.py file mdhe aahe ts same book. mai dena imp hai-->
+    <uo>
+      <li><b>Book ID :- {{book.id}}</b></li> 
+      <li><b>Book Name :- {{book.name}}</b></li> 
+      <li><b>Book Price :- {{book.price}}</b></li> 
+      <li><b>Book Qty :- {{book.qty}}</b></li> 
+      <li><b>Book Is Published :- {{book.is_published}}</b></li> 
+      <li><b>Book Is Active :- {{book.is_active}}</b></li> 
+    </uo>
+
+{% endblock %}
+

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    {% load static %}
+
+<head>
+        <title>Library Application</title>
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+
+
+</head>
+<body>
+
+
+{%for message in messages%}
+    <div class="alert alert-dismissible fade show" role="alert">
+        <strong><li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li></strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>     
+{% endfor %} 
+
+
+<!-- niche ka code only msg print krega -->
+<!-- {% for message in messages %}
+  {{message}}
+{% endfor %}  -->
+
+{% if user.is_authenticated %}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{% url 'home_page'%}" style="color: red;">Home Page</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'add_single_book' %}" style="color: green;">Add Book</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'show_books' %}" style="color: blue;">Show Active Books</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'In_active_book' %}" style="color: lightseagreen;">Show In-Active Books</a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'form_view' %}" style="color: rgb(226, 99, 25);">Book Form </a>
+              </li> 
+
+              <li class="nav-item">
+                <a class="nav-link" style="color: rgb(224, 12, 196);" >Logged In as :- {{user}} </a>   <!-- to see ki admin page vr kon login aahe & loginn nsel tr AnonymousUser midel-->
+              </li>
+              
+              <li class="nav-item" >
+                <a class="nav-link" href="{% url 'user_logout' %}" style="color: red;">Logout </a>
+              </li> 
+
+            </ul>
+          </div>
+        </div>
+      </nav>    
+{% endif %}
+
+    <div class="container">
+            {% block content %}
+
+            {% endblock %}
+    </div> 
+
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+
+</html>
