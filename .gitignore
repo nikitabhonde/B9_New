@@ -3,3 +3,4 @@
 # app/*    -- apps cha all file ignore honar
 text.txt            
 text1.txt
+logger.log
