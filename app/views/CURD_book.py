@@ -11,22 +11,24 @@ log = logging.getLogger("first")
 def common_var(req):                # For Common methods 
     final_dict = req.POST
     book_name = final_dict.get("nm")
+    book_author = final_dict.get("aur")
     book_price = final_dict.get("prc")
     book_qty = final_dict.get("qty")
+    book_publication_date = final_dict.get("pdate")
     book_is_pub = final_dict.get("ispub")
-    return book_name, book_price, book_qty, book_is_pub
+    return book_name, book_author, book_price, book_qty, book_publication_date, book_is_pub
 
 
 @login_required
 def add_single_book(request):
     if request.method == "POST":                    # POST request page vr value lihay sathi
-        book_name, book_price, book_qty, book_is_pub = common_var(request)
+        book_name, book_author, book_price, book_qty, book_publication_date, book_is_pub = common_var(request)
         if book_is_pub == "YES":
             is_pub = True
         else:
             is_pub = False
 
-        Book.objects.create(name=book_name, price=book_price, qty=book_qty, is_published=is_pub)
+        Book.objects.create(name=book_name, author=book_author, price=book_price, qty=book_qty, publication_date=book_publication_date, is_published=is_pub)
         log.info("Book has been added successfully...!")
         messages.success(request, "Book has been added successfully...!")        # this is django-msg jo humme book add hone kai baad dikhana hai to ye msg ka code showbooks.html mai likhna pdega
         return redirect("show_books")
@@ -45,7 +47,7 @@ def edit_single_book(request, bid):
     if request.method == "GET":
         return render(request, "bookedit.html", {"single_book":book_obj})
     elif request.method == "POST":
-        book_name, book_price, book_qty, book_is_pub = common_var(request)
+        book_name,book_author, book_price, book_qty,book_publication_date, book_is_pub = common_var(request)
         if book_is_pub == "YES":
             is_pub = True
         else:
@@ -53,8 +55,10 @@ def edit_single_book(request, bid):
 
         # update data
         book_obj.name = book_name
+        book_obj.author = book_author
         book_obj.price = book_price
         book_obj.qty = book_qty
+        book_obj.publication_date = book_publication_date
         book_obj.is_published = is_pub
         book_obj.save()
         messages.success(request, f"Book: {book_obj.name} has been updated successfully...!")

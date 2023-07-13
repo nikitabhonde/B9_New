@@ -12,9 +12,11 @@
             <thead>   <!-- esse table-Headings add hogi -->
               <tr>   
                 <th scope="col">ID</th>
-                <th scope="col">Name</th>   
+                <th scope="col">Name</th>  
+                <th scope="col">Author</th>   
                 <th scope="col">Price</th>
                 <th scope="col">Qty</th>
+                <th scope="col">Publication Date</th>   
                 <th scope="col">Is Published</th>
                 <th scope="col">Is Active</th>
                 <th scope="col">Actions</th>
@@ -26,8 +28,10 @@
               <tr>
                 <th scope="row">{{book.id}}</th>    
                 <td>{{book.name}}</td>
+                <td>{{book.author}}</td>
                 <td>{{book.price}}</td>
                 <td>{{book.qty}}</td>
+                <td>{{book.publication_date}}</td>
                 <td>{{book.is_published}}</td>
                 <td>{{book.is_active}}</td>
                 <td>

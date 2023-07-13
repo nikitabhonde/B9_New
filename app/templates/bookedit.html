@@ -8,14 +8,19 @@
         <label> Book Name :- </label>
         <input type="text" name="nm" value="{{single_book.name}}" required><br><br>
 
+        <label> Book Author :- </label>
+        <input type="text" name="aur" value="{{single_book.author}}" required><br><br>
+
         <label> Book Price :- </label>
         <input type="number" name="prc" value="{{single_book.price}}" required><br><br>
 
         <label> Book Qty :- </label>
         <input type="number" name="qty" value="{{single_book.qty}}" required><br><br>
 
-        <label> Book Is Published :- </label>
+        <label> Book Publication Date :- </label>
+        <input type="date" name="pdate" value="{{single_book.publication_date}}" required><br><br>
 
+        <label> Book Is Published :- </label>
         {% if single_book.is_published %}
             Yes &nbsp;<input type="radio" value="YES" name="ispub" checked>&nbsp;&nbsp;&nbsp;&nbsp;
             No &nbsp;<input type="radio" value="NO" name="ispub">                 <!--YES,No value set keli backend sathi-->

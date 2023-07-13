@@ -20,10 +20,10 @@ def create_activebook_csv(request):
         response['Content-Disposition'] = 'attachment; filename="Activebook.csv"'         
     
         writer = csv.writer(response)
-        writer.writerow(['Name', 'Price', 'Qty', 'Is_published', 'Is_active'])      # To create headers in csv-file
+        writer.writerow(['Name', 'Author', 'Price', 'Qty','Publication Date', 'Is_published', 'Is_active'])      # To create headers in csv-file
 
         # Book.objects.filter(is_active=True) this condition will give all active_books
-        books = Book.objects.filter(is_active=True).values_list('name', 'price', 'qty', 'is_published', 'is_active')
+        books = Book.objects.filter(is_active=True).values_list('name', 'author', 'price', 'qty', 'publication_date', 'is_published', 'is_active')
         for book in books:
             writer.writerow(book)
         log.info("Active Book CSV file created Successfully..!")
@@ -40,10 +40,10 @@ def create_inactivebook_csv(request):
         response['Content-Disposition'] = 'attachment; filename="In_Activebook.csv"' 
             
         writer = csv.writer(response)
-        writer.writerow(['Name', 'Price', 'Qty', 'Is_published', 'Is_active'])      # To create headers in csv-file
+        writer.writerow(['Name', 'Author', 'Price', 'Qty', 'Publication Date', 'Is_published', 'Is_active'])      # To create headers in csv-file
         
         # Book.objects.filter(is_active=False) this condition will give all Inactive_books
-        books = Book.objects.filter(is_active=False).values_list('name', 'price', 'qty', 'is_published', 'is_active')
+        books = Book.objects.filter(is_active=False).values_list('name', 'author', 'price', 'qty', 'publication_date', 'is_published', 'is_active')
         for book in books:
             writer.writerow(book)
         log.info("In Active Book CSV file created Successfully..!")
@@ -67,14 +67,14 @@ def create_activebook_excel(request):
         row_num = 0
         font_style = xlwt.XFStyle()
         font_style.font.bold = True
-        columns = ['Name', 'Price', 'Qty', 'Is_Published', 'Is_active', ]               # to create headers
+        columns = ['Name', 'Author', 'Price', 'Qty', 'Publication Date', 'Is_published', 'Is_active' ]               # to create headers
         for col_num in range(len(columns)):
             ws.write(row_num, col_num, columns[col_num], font_style)
         # Sheet body, remaining rows
         font_style = xlwt.XFStyle()
 
         # Book.objects.filter(is_active=True) this condition will give all active_books
-        book = Book.objects.filter(is_active=True).values_list('name', 'price', 'qty', 'is_published', 'is_active')
+        book = Book.objects.filter(is_active=True).values_list('name', 'author', 'price', 'qty', 'publication_date', 'is_published', 'is_active')
         for row in book:
             row_num += 1
             for col_num in range(len(row)):
@@ -100,13 +100,13 @@ def create_inactivebook_excel(request):
 
         # Sheet header, first row
         row_num = 0
-        columns = ['Name', 'Price', 'Qty', 'Is_Published', 'Is_active', ]                   # to create headers
+        columns = ['Name', 'Author', 'Price', 'Qty', 'Publication Date', 'Is_published', 'Is_active' ]                   # to create headers
 
         for col_num in range(len(columns)):
             ws.write(row_num, col_num, columns[col_num])
 
         # Condition to get inactive_books --> Book.objects.filter(is_active=False)
-        book = Book.objects.filter(is_active=False).values_list('name', 'price', 'qty', 'is_published', 'is_active')
+        book = Book.objects.filter(is_active=False).values_list('name', 'author', 'price', 'qty', 'publication_date', 'is_published', 'is_active')
         for row in book:
             row_num += 1
             for col_num in range(len(row)):
@@ -130,7 +130,7 @@ def upload_csv(request):
         file = request.FILES["csv_file"]
         data = file.read().decode('utf-8').splitlines()
     # To check website & csv file che headers match hotat ki nhi
-        expected_header_list = ["name", "price", "qty", "is_published"]
+        expected_header_list = ["name", "author", "price", "qty", "publication_date", "is_published", "is_active"]
         expected_header_list.sort()
         actual_header_list = data[0].lower().split(",")             # data mdhe all csv print houn midel bt we want header only-- thats why[0] & then split headers "split(",")"
         actual_header_list.sort()
@@ -148,7 +148,7 @@ def upload_csv(request):
                 is_pub = True
             else:
                 is_pub = False
-            lst.append(Book(name=ele.get("Name"), price=ele.get("Price"), qty=ele.get("Qty"), is_published=is_pub))
+            lst.append(Book(name=ele.get("Name"), author=ele.get("Author"), price=ele.get("Price"), qty=ele.get("Qty"), publication_date=ele.get("Publication Date"), is_published=is_pub))
     except Exception as e:
         print(e)
     else:
@@ -160,5 +160,5 @@ def upload_csv(request):
 
 @login_required
 def upload_sample_csv(request):
-    return HttpResponse("Not complete")
+    return HttpResponse("Comming Soon")
     # https://pythoncircle.com/post/30/how-to-upload-and-process-the-csv-file-in-django/
