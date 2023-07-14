@@ -24,7 +24,8 @@ def user_signup(request):
             messages.success(request, f"User '{user.username}' registered successfully...! You can login here.")
             return redirect("user_login")
         else:
-            messages.danger(request, "Unsuccessful registration. Invalid information.")       # If anything is wrong in our site will get this error
+            messages.warning(request, "Unsuccessful registration. Invalid information.") 
+            return redirect("user_login")      # If anything is wrong in our site will get this error
     
     elif request.method == "GET":
         form = NewUserForm()
